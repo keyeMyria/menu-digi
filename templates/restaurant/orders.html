@@ -1,0 +1,54 @@
+{% extends "base/base_restaurant.html" %}
+{% load static %}
+<head>
+        {% block head %}
+        {{ block.super }}
+        {% endblock %}
+        {% block styles %}
+        {{ block.super }}
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+        
+        {% endblock %}
+</head>
+
+<body>
+        {% block content %}
+        {{ block.super }}
+           <!-- DATA TABLE-->
+           <section class="p-t-20">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="title-5 m-b-35">Orders</h1>
+                            <div class="table-responsive table-responsive-data2">
+                                <table class="table table-data2" id="ordersTable">
+                                    <thead>
+                                        <tr>
+                                            {% if table_headers %}
+                                            {% for heading in table_headers %}
+                                                <th> {{ heading }} </th>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rec-items">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- END DATA TABLE-->
+        {% endblock %}
+        {% block script %}
+        {{ block.super }}
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">
+        </script>
+        <script src='{% static "js/orders.js" %}'></script>
+    
+        
+        {% endblock %}
+
+</body>
+  

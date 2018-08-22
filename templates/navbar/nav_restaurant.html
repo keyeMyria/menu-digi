@@ -1,0 +1,167 @@
+
+{% load static %}
+{% load bootstrap4 %}
+<!-- HEADER DESKTOP-->
+       <header class="header-desktop3 d-none d-lg-block">
+            <div class="section__content section__content--p35">
+                <div class="header3-wrap">
+                    <div class="header__logo">
+                        <a href="#">
+                            <img src="{{restaurant_logo}}" alt="Menu Digi logo" />
+                        </a>
+                    </div>
+                    <div class="header__navbar">
+                        <ul class="list-unstyled">
+      
+                            <li>
+                                <a href="{% url 'restaurant:index' %}">
+                                    <i class="fas fa-home"></i>
+                                    <span class="bot-line"></span>Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'restaurant:tables' %}">
+                                    <i class="fas fa-table"></i>
+                                    <span class="bot-line"></span>Tables</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'restaurant:food-category' %}">
+                                    <i class="fas fa-table"></i>
+                                    <span class="bot-line"></span>Food Categories</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'restaurant:orders' %}">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span class="bot-line"></span>Orders</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'restaurant:reviews' %}">
+                                    <i class="fas fa-comments"></i>
+                                    <span class="bot-line"></span>Reviews</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="header__tool">
+                        <div class="account-wrap">
+                            <div class="account-item account-item--style2 clearfix js-item-menu">
+                                <div class="image">
+                                    <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                                </div>
+                                <div class="content">
+                                    <a class="js-acc-btn" href="#">{{ user.username }}</a>
+                                </div>
+                                <div class="account-dropdown js-dropdown">
+                                    <div class="info clearfix">
+                                        <div class="image">
+                                            <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                                        </div>
+                                        <div class="content">
+                                            <h5 class="name">
+                                                <a href="#">{{ user.username }}</a>
+                                            </h5>
+                                            <span class="email">{{ user.email }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="account-dropdown__body">
+                                        <div class="account-dropdown__item">
+                                            <a href="/accounts/password/reset/">
+                                                <i class="zmdi zmdi-account"></i>Change password</a>
+                                        </div> 
+                                    </div>
+                                    <div class="account-dropdown__footer">
+                                        <a href="{% url 'register:logout' %}">
+                                            <i class="zmdi zmdi-power"></i>Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END HEADER DESKTOP-->
+
+        <!-- HEADER MOBILE-->
+        <header class="header-mobile header-mobile-2 d-block d-lg-none">
+            <div class="header-mobile__bar">
+                <div class="container-fluid">
+                    <div class="header-mobile-inner">
+                        <a class="logo" href="#">
+                            <img src="{{restaurant_logo}}" alt="Menu Digi logo" />
+                        </a>
+                        <button class="hamburger hamburger--slider" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar-mobile">
+                <div class="container-fluid">
+                    <ul class="navbar-mobile__list list-unstyled">
+                        <li>
+                            <a href="{% url 'restaurant:index' %}">
+                                <i class="fas fa-home"></i>Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'restaurant:tables' %}">
+                                <i class="fas fa-table"></i>Tables</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'restaurant:food-category' %}">
+                            <i class="fas fa-utensils"></i>Food Categories</a>
+                        </li>
+                        <li><i class="zmdi zmdi-notifications"></i>
+                            <span class="quantity">3</span>
+                            <a href="{% url 'restaurant:orders' %}">
+                            <i class="fas fa-cart-plus"></i>Orders</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'restaurant:reviews' %}">
+                            <i class="fas fa-comments"></i>Reviews</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="sub-header-mobile-2 d-block d-lg-none">
+            <div class="header__tool">
+                <div class="account-wrap">
+                    <div class="account-item account-item--style2 clearfix js-item-menu">
+                        <div class="image">
+                            <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                        </div>
+                        <div class="content">
+                            <a class="js-acc-btn" href="#">{{ user.username }}</a>
+                        </div>
+                        <div class="account-dropdown js-dropdown">
+                            <div class="info clearfix">
+                                <div class="image">
+                                    <a href="#">
+                                        <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <h5 class="name">
+                                        <a href="#">{{ user.username }}</a>
+                                    </h5>
+                                    <span class="email">{{ user.email }}</span>
+                                </div>
+                            </div>
+                            <div class="account-dropdown__body">
+                                <div class="account-dropdown__item">
+                                    <a href="/accounts/password/reset/">
+                                        <i class="zmdi zmdi-account"></i>Change password</a>
+                                </div>
+                            </div> 
+                            <div class="account-dropdown__footer">
+                                <a href="{% url 'register:logout' %}">
+                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END HEADER MOBILE -->
+

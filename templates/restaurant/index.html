@@ -1,0 +1,126 @@
+{% extends "base/base_restaurant.html" %}
+{% load static %}
+<head>
+        {% block head %}
+        {{ block.super }}
+        {% endblock %}
+        {% block styles %}
+        {{ block.super }}
+        <link href="{% static "assets/css/profile.css" %}" rel="stylesheet" media="all">
+        {% endblock %}
+</head>
+
+<body>
+        {% block content %}
+        {{ block.super }}
+        <section class="profile-">
+			<div class="container">
+					{% block page_content %}
+					<div class="page-header">
+						<img class="img-rounded profile-avatar picture-circle" src="{% if profile.avatar.url %}{{profile.avatar.url}}{% else %}{{ human_avatar }}{% endif %}">
+						<div class="profile-header">
+							<h1>{{ profile.user.username }}</h1>
+							{% if profile.location %}
+							<p>
+								Location: {{ profile.location }}
+							</p>
+							{% endif %}
+							{% if profile.business_email %}
+							<p>
+								Business Email: {{ profile.business_email }}
+							</p>
+							{% endif %}
+							{% if profile.address %}
+							<p>
+								Address: {{ profile.address }}
+							</p>
+							{% endif %}
+							{% if profile.phone_number %}
+							<p>
+								Phone Number: {{ profile.phone_number }}
+							</p>
+							{% endif %}
+							{% if profile.description %}
+							<p>
+								Bio: {{ profile.description }}
+							</p>
+							{% endif %}
+
+							{% if request.user == profile.user %}
+							<p>
+								<a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-profile' %}">
+									<i class="fas fa-edit"></i>&nbsp; Edit
+								</a>
+								<a class="btn btn-primary btn-sm" href="{% url 'restaurant:add-food' %}">
+										<i class="fas fa-utensils"></i>&nbsp; Add Food Item
+                                </a>
+							</p>
+							{% endif %}
+						</div>
+					</div>
+					{% endblock %}
+			</div>
+		</section>
+		<section class=" statistic-chart">
+			<div class="container">
+				<div class="device-header"><h2>Food Items</h2></div>
+				<hr>
+				{% if profile.food.all %}
+				{% for food_category in profile.food_category.all %}
+				<div class="device-header"><h2>{{food_category.name}}</h2></div>
+				<div class="row">
+					{% if food_category.food.all %}
+					{% for fooditem in food_category.food.all %}
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-header">
+								<strong class="card-title mb-3">{{ fooditem.name}}</strong>
+							</div>
+							<div class="card-body">
+								<div class="mx-auto d-block">
+									<img class="img-rounded profile-avatar picture-circle" src="{% if fooditem.avatar.url %}{{fooditem.avatar.url}}{% else %}{{ food_avatar }}{% endif %}">
+									<hr/>
+									<h3 class="mt-2 mb-1">Details</h3>
+									<ul>
+										<li>Category: {{ fooditem.category.name }}</li>
+										<li>Available: {% if fooditem.availability  %} {{"Yes"}} {% else %} {{"No"}}  {% endif %}</li>
+										<li>Price: Ksh.{{ fooditem.price}}</li>
+									</ul>
+									{% if request.user == profile.user %}
+									<div class="edit">
+										<a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-food' fooditem.id %}">
+											<i class="fas fa-edit"></i>&nbsp; Edit
+										</a>
+									</div>
+									{% endif %}
+								</div>
+								<hr>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					
+					{% else %}
+					<h2>No Food Items yet</h2>
+					{% endif %}
+				</div>
+				{% endfor %}
+				{% else %}
+					<h2>No Food Items yet</h2>
+				{% endif %}
+			</div>
+			{% comment %} <div class="container">
+			<form action="{% url 'restaurant:test' %}"  id="test" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<input id="data" type="hidden" name="Food">
+				<input type="submit" class="btn btn-primary btn-sm" value="Submit">
+			</form>
+			</div> {% endcomment %}
+
+
+		</section>
+		{% endblock %}
+		{% block script %}
+		{{ block.super }}
+        {% endblock %}
+</body>

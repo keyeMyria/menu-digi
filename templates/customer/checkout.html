@@ -1,0 +1,78 @@
+{% load static %}
+<section class="tv-paddingT100 tv-bgbanner" id="checkout">
+        <div class="container">
+            <div class="row">
+                <div class="tv-block-heading">
+                    <h2>Checkout</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="tv-contact-form">
+                        <form name="sentMessage" id="cartForm" method="post" action="#">
+                            {% csrf_token %}
+                            <h1>Your Info</h1>
+                            <div class="row">
+                                <div class="tv-contact-menu2">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <input type="text" name="username" id="cart-username" class="form-control placeholder-fix2" placeholder="Name" required="" aria-invalid="false">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" name="email" id="cart-email" class="form-control placeholder-fix2" placeholder="Email" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="phone_number" id="cart-contact" class="form-control placeholder-fix2" placeholder="Phone Number" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <textarea name="message" id="cart-message" class="form-control placeholder-fix2" rows="5" placeholder="Additional info" aria-invalid="false"></textarea>
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <input id="data" type="hidden" name="Food">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="buttons text-center">
+                                            <button type="submit" class="checkout-submit tv-site-btn4">Send Order</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                        <h1>Shopping Cart</h1>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr class="column-labels">
+                                        <th class="product-details" scope="col">Id</th>
+                                        <th class="product-details" scope="col">Product</th>
+                                        <th class="product-price" scope="col">Price</th>
+                                        <th class="product-quantity" scope="col">Quantity</th>
+                                        <th class="product-removal" scope="col">Removal</th>
+                                        <th class="product-line-price" scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="food-cart-items">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="totals">
+                            <div class="totals-item totals-item-total">
+                                <label>Grand Total</label>
+                                <div class="totals-value" id="cart-total">0</div>
+                            </div>
+                        </div>
+                        
+                        </div>
+                    
+                </div>
+
+            </div>
+        </div>
+</section>

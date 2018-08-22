@@ -1,0 +1,60 @@
+{% extends "base/base_restaurant.html" %}
+{% load static %}
+<head>
+        {% block head %}
+        {{ block.super }}
+        {% endblock %}
+        {% block styles %}
+        {{ block.super }}
+        <link href="{% static "assets/css/profile.css" %}" rel="stylesheet" media="all">
+        {% endblock %}
+</head>
+
+<body>
+        {% block content %}
+        {{ block.super }}
+		<section class=" statistic-chart">
+            <div class="container">
+				<div class="device-header"><h2>Reviews</h2></div>
+                <hr>
+                <a class="au-btn au-btn-icon au-btn--blue" href="{% url 'restaurant:add-review' %}">
+                    <i class="far fa-comments"></i>&nbsp; Add a review
+                </a>
+                <hr/>
+				{% if profile.reviews.all %}
+				<div class="row">
+					{% for review in profile.reviews.all %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img class="img-rounded profile-avatar picture-circle" src="{% if review.avatar.url %}{{review.avatar.url}}{% else %}{{ customer_avatar }}{% endif %}">
+                            <div class="card-body">
+                                <h4 class="card-title mb-3">{{review.customer_name}}</h4>
+                                <p class="card-text">{{review.review}}
+                                </p>
+                                <hr/>
+                                {% if request.user == profile.user %}
+                                <div class="edit">
+                                    <a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-review' review.id %}">
+                                        <i class="fas fa-edit"></i>&nbsp; Edit
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+					{% endfor %}
+				</div>
+				{% else %}
+					<h2>No Reviews yet</h2>
+				{% endif %}
+			</div>
+
+		</section>
+		{% endblock %}
+		{% block script %}
+		{{ block.super }}
+		<script src="{% static "js/script.js" %}"></script>
+        {% endblock %}
+</body>
+
+

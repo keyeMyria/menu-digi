@@ -1,0 +1,42 @@
+{% extends "base/base_restaurant.html" %}
+{% load static %}
+<head>
+        {% block head %}
+        {{ block.super }}
+        {% endblock %}
+        {% block styles %}
+        {{ block.super }}
+        <link rel="stylesheet" href="{% static 'assets/css/registration.css' %}">
+        {% endblock %}
+</head>
+
+<body>
+        {% block content %}
+        {{ block.super }}
+           <!-- EDIT PROFILE FORM-->
+           <section class="section__content section__content--p30">
+                <div class="container">
+                     <div class="row sign-up">
+                         <div class="col-md-6">
+                             <div class="section">
+                                 <h1>Edit Table</h1>
+                                 <div class="form-section">
+                                     <form action="{% url 'restaurant:edit-table' table.id %}"  method="post" class="form-horizontal" enctype="multipart/form-data">
+                                         {% csrf_token %}
+                                         {% include 'base/forms.html' %}
+                                         <div class="form-group">
+                                             <input type="submit" class="btn btn-primary btn-sm" value="Submit">
+                                         </div>
+                                     </form>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+  
+             </section>
+             <!-- END FORM-->
+        {% endblock %}
+
+</body>
+  

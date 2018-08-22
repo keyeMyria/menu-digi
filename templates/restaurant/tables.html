@@ -1,0 +1,60 @@
+{% extends "base/base_restaurant.html" %}
+{% load static %}
+<head>
+        {% block head %}
+        {{ block.super }}
+        {% endblock %}
+        {% block styles %}
+        {{ block.super }}
+        <link href="{% static "assets/css/profile.css" %}" rel="stylesheet" media="all">
+        {% endblock %}
+</head>
+
+<body>
+        {% block content %}
+        {{ block.super }}
+		<section class=" statistic-chart">
+				<div class="container">
+                    <div class="device-header"><h2>Restaurant Tables</h2></div>
+                    <hr>
+                    <a class="au-btn au-btn-icon au-btn--blue" href="{% url 'restaurant:add-table' %}">
+                            <i class="fas fa-table"></i>&nbsp; Add Tables
+                    </a>
+                    <hr>
+                    {% if profile.table.all %}
+                    <div class="row">
+                        {% for table in profile.table.all %}
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title mb-3">Table: {{ table.table}}</strong>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mx-auto d-block">
+                                        <img class="img-rounded profile-avatar picture-circle" src="{{ table_avatar }}">
+                                        <hr/>
+                                        {% if request.user == profile.user %}
+                                        <div class="edit">
+                                            <a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-table' table.id %}">
+                                                <i class="fas fa-edit"></i>&nbsp; Edit
+                                            </a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <h2>No Tables yet</h2>
+                    {% endif %}
+                </div>
+		</section>
+		{% endblock %}
+		{% block script %}
+		{{ block.super }}
+		<script src="{% static "js/script.js" %}"></script>
+        {% endblock %}
+</body>

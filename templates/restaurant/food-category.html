@@ -1,0 +1,61 @@
+{% extends "base/base_restaurant.html" %}
+{% load static %}
+<head>
+        {% block head %}
+        {{ block.super }}
+        {% endblock %}
+        {% block styles %}
+        {{ block.super }}
+        <link href="{% static "assets/css/profile.css" %}" rel="stylesheet" media="all">
+        {% endblock %}
+</head>
+
+<body>
+        {% block content %}
+        {{ block.super }}
+		<section class=" statistic-chart">
+            <div class="container">
+				<div class="device-header"><h2>Food Categories</h2></div>
+                <hr>
+                <a class="au-btn au-btn-icon au-btn--blue" href="{% url 'restaurant:add-food-category' %}">
+                    <i class="fas fa-utensils"></i>&nbsp; Add Food Category
+                </a>
+                <hr/>
+				{% if profile.food_category.all %}
+				<div class="row">
+					{% for foodcategory in profile.food_category.all %}
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-header">
+								<strong class="card-title mb-3">{{ foodcategory.name}}</strong>
+							</div>
+							<div class="card-body">
+								<div class="mx-auto d-block">
+									<img class="img-rounded profile-avatar picture-circle" src="{% if foodcategory.avatar.url %}{{foodcategory.avatar.url}}{% else %}{{ food_category_avatar }}{% endif %}">
+									<hr/>
+									{% if request.user == profile.user %}
+									<div class="edit">
+										<a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-food-category' foodcategory.id %}">
+											<i class="fas fa-edit"></i>&nbsp; Edit
+										</a>
+									</div>
+									{% endif %}
+								</div>
+								<hr>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				{% else %}
+					<h2>No Food Categories yet</h2>
+				{% endif %}
+			</div>
+
+		</section>
+		{% endblock %}
+		{% block script %}
+		{{ block.super }}
+		<script src="{% static "js/script.js" %}"></script>
+        {% endblock %}
+</body>

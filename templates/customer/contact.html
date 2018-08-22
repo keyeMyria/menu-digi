@@ -1,0 +1,84 @@
+
+{% load static %}
+<!--Contact us goes here -->
+<section class="tv-paddingT100 tv-bgbanner" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="tv-block-heading">
+                <h2>Get In Touch</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="tv-contact-details tv-whitebgclr">
+                    <h2 class="text-right"><i class="fa fa-map-marker" aria-hidden="true"></i></h2>
+                    <h3>Address</h3>
+                    <p>{{restaurant.address}}</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="tv-contact-details tv-whitebgclr">
+                    <h2 class="text-right"><i class="fa fa-phone" aria-hidden="true"></i></h2>
+                    <h3>Number</h3>
+                    <p>{{restaurant.phone_number}}</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="tv-contact-details tv-whitebgclr">
+                    <h2 class="text-right"><i class="fa fa-envelope" aria-hidden="true"></i></h2>
+                    <h3>Mail</h3>
+                    <p>{{restaurant.business_email}}</p>
+                </div>
+            </div>
+        </div>
+        <!--Map can go here-->
+    </div>
+    <!-- Message goes here -->
+    <div class="tv-paddingT100 container-fluid">
+        <div class="row">
+            <div class="tv-contact-banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="tv-online-restu">
+                                <div class="tv-block-heading">
+                                    <h2>Contact us</h2>
+                                </div>
+                                <div class="tv-contact-form">
+                                    <form name="sentMessage" id="contactForm" method="get" action="#">
+                                        <div class="row">
+                                            <div class="tv-contact-menu">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group">
+                                                        <input type="text" name="" id="name" class="form-control placeholder-fix" placeholder="Name" required="" aria-invalid="false">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="email" id="contact" class="form-control placeholder-fix" placeholder="Email" required="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" id="email" class="form-control placeholder-fix" placeholder="Phone Number" required="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group">
+                                                        <textarea name="message" id="message" class="form-control placeholder-fix" rows="5" placeholder="Message" required="" aria-invalid="false"></textarea>
+                                                        <p class="help-block text-danger"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="buttons text-center">
+                                                        <button type="submit" class="tv-site-btn">Send Meassage</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

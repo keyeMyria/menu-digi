@@ -1,0 +1,91 @@
+{% extends "base/base_customer.html" %}
+{% load static %}
+<head>
+        {% block head %}
+        {{ block.super }}
+        {% endblock %}
+
+        {% block styles %}
+        {{ block.super }}
+        {% endblock %}
+
+        {% block headscripts %}
+        {{ block.super }}
+        {% endblock %}
+</head>
+
+
+<body>
+    {% block content %}
+    {{ block.super }}
+    <section class="tv-paddingT100 tv-bgbanner" id="menu">
+        <div class="container">
+            <div class="row">
+                <div class="tv-block-heading">
+                    <h2>Our Special Menu </h2>
+                </div>
+            </div>
+            {% if restaurant.food.all %}
+            <div class="row">
+                    <div class="tv-menu">
+                        <div class="col-md-12 col-sm-12 col-xs-12 tv-whitebgclr">
+                        <!--create tabs-->
+                        <ul class="nav nav-tabs">
+                            {% for food_category in restaurant.food_category.all %}
+                            <li {% if food_category  == restaurant.food_category.all.0  %} class="active" {% endif %} ><a data-toggle="tab" href="#{{food_category.name}}">{{food_category.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content">
+                                {% for food_category in restaurant.food_category.all %}
+                                <div id="{{food_category.name}}" class="tab-pane fade {% if food_category  == restaurant.food_category.all.0  %} in active {% endif %}">
+                                        <div class="row">
+                                            {% for food in food_category.food.all %}
+                                            {% if food.availability %}
+                                            <div class="col-md-4 col-sm-4 col-xs-6 width-100perc">
+                                                <div class="tv-menu-items">
+                                                    <div class="tv-menu-item-img">
+                                                        <img src="{% if food.avatar.url %}{{food.avatar.url}}{% else %}{{ food_avatar }}{% endif %}" 
+                                                        alt="menu-item" class="img-responsive">
+                                                    </div>
+                                                    <div class="tv-menu-item-name">
+                                                        <h4 class="name">{{food.name}}</h4>
+                                                        <p class="tv-menu-item-price">
+                                                            Ksh.{{food.price}}
+                                                        </p>
+                                                        <p hidden class="food-id">{{food.id}}</p>
+                                                        <p hidden class="food-name">{{food.name}}</p>
+                                                        <p hidden class="food-price">{{food.price}}</p>
+                                                        <button id="food-btn{{food.id}}" class="btn btn-info btn-lg add-cart-btn">
+                                                            <i class="fas fa-cart-plus"></i> Add to Cart
+                                                        </button>
+                                                    </div>
+                            
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                </div>
+                                {% endfor %}
+
+                        </div>
+                        <!--create tabs content-->
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="tv-block-heading">
+                    <h5>No menu yet</h5>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endblock %}
+
+    {% block script %}
+    {{ block.super }}
+   
+    {% endblock %}
+</body>

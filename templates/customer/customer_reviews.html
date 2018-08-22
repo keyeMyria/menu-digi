@@ -1,0 +1,46 @@
+{% load static %}
+<section class="tv-paddingT100 tv-bgbanner" id="team">
+    <div class="tv-paddingT100 container-fluid">
+        <div class="row">
+                <div class="tv-block-heading">
+                    <h2>Customer Reviews</h2>
+                </div>
+        </div>
+        <div class="row">
+            <div class="tv-counter-banner">
+                <div id="tv-testimonial-Carousel" class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        {% if restaurant.reviews %}
+                        {% for review in restaurant.reviews.all %}
+                        <div {% if review == restaurant.reviews.all.0 %} class="item active" {% else %} class="item" {% endif %}">
+                            <div class="tv-client-list">
+                                <div class="tv-client-info">
+                                    <div class="tv-client-img">
+                                        <i class="fa fa-quote-right"></i>
+                                    </div>
+                                    <p>{{review.review}}</p>
+                                    <h4>
+                                        <img src='{% if review.avatar.url %}{{review.avatar.url}}{% else %}{{ customer_avatar }}{% endif %}' class="img-circle" alt="client">
+                                        
+                                    </h4>
+                                    <h4>{{review.customer_name}}</h4>
+                                </div>
+                            </div> 
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        {% endif %}
+                    </div>
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#tv-testimonial-Carousel" data-slide="prev">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    </a>
+                    <a class="right carousel-control" href="#tv-testimonial-Carousel" data-slide="next">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
