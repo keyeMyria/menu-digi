@@ -6,7 +6,6 @@ $(document).ready(function() {
 socket.onmessage = function(e){
     console.log("message",e)
     var orderDetails = e.data
-    launch_toast()
     load_records()
   }
 
