@@ -28,7 +28,7 @@ class Ajax(forms.Form):
 class AjaxOrdersRecords(Ajax):
     def validate_order(self,order):
         try:
-            if order.username=="" or order.email=="" or order.phone_number=="" or order.get_total_cost() <= 0 or not order.order_info or not order.time_description:
+            if order.username=="" or order.phone_number=="" or order.get_total_cost() <= 0 or not order.order_info or not order.time_description:
                 return False
             return True
         except Exception as err:

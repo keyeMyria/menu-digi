@@ -76,8 +76,6 @@ class OrdersConsumer(AsyncConsumer):
             if username=="":
                 return False,"Username is required"
             email=data["email"]
-            if not email:
-                return False,"email is required"
             message=data["message"]
             phone_number=data["contact"]
             if not phone_number:
