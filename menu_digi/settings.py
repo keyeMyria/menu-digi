@@ -64,6 +64,7 @@ if MODE=="dev":
         }
         
     }
+    db_from_env = dj_database_url.config(conn_max_age=500)
     SECURE_SSL_REDIRECT=False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
@@ -83,6 +84,7 @@ else:
             default=config('DATABASE_URL')
         )
     }
+    db_from_env = dj_database_url.config()
     SECURE_SSL_REDIRECT=config('SECURE_SSL_REDIRECT', cast=bool)
     SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
     CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool)
@@ -98,8 +100,6 @@ else:
     },
 }
     
-
-db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
