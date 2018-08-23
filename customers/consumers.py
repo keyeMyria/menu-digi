@@ -3,18 +3,8 @@ import json
 from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
 from django.core.serializers import serialize
-
+from django.db import close_old_connections
 from restaurant.models import Restaurant, FoodItem,FoodCategory,Table,Order
-
-
-
-def index(request,restaurant_name,table_id):
-    
-    restaurant=get_object_or_404(Restaurant,name=r_name)
-    table=get_object_or_404(Table,restaurant=restaurant,pk=t_id)
-    context={"restaurant":restaurant,
-            "table":table}
-    return render(request,"customer/index.html",context)
 
 class OrdersConsumer(AsyncConsumer):
     async def websocket_connect(self,event):
@@ -70,7 +60,9 @@ class OrdersConsumer(AsyncConsumer):
     @database_sync_to_async
     def validate_connection(self):
         try:
+            close_old_connections()
             self.restaurant=Restaurant.objects.get(name=self.restaurant_name)
+            close_old_connections()
             # self.table=Table.objects.get(pk=self.table_id,restaurant=self.restaurant)
             return True
         except Exception as err:
