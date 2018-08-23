@@ -21,9 +21,9 @@
                     <i class="fas fa-utensils"></i>&nbsp; Add Food Category
                 </a>
                 <hr/>
-				{% if profile.food_category.all %}
+				{% if food_categories %}
 				<div class="row">
-					{% for foodcategory in profile.food_category.all %}
+					{% for foodcategory in food_categories %}
 					<div class="col-md-4">
 						<div class="card">
 							<div class="card-header">
@@ -33,13 +33,13 @@
 								<div class="mx-auto d-block">
 									<img class="img-rounded profile-avatar picture-circle" src="{% if foodcategory.avatar.url %}{{foodcategory.avatar.url}}{% else %}{{ food_category_avatar }}{% endif %}">
 									<hr/>
-									{% if request.user == profile.user %}
+				
 									<div class="edit">
 										<a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-food-category' foodcategory.id %}">
 											<i class="fas fa-edit"></i>&nbsp; Edit
 										</a>
 									</div>
-									{% endif %}
+			
 								</div>
 								<hr>
 							</div>

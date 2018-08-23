@@ -5,24 +5,36 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings 
 from django.urls import reverse
+from django.db import close_old_connections
 
 from .forms import FoodItemForm,FoodCategoryForm,RestaurantForm,TableForm,ReviewForm
 from .orders_data import AjaxOrdersRecords
 from .models import Restaurant, FoodItem,FoodCategory,Table,Order,Reviews
+from collections import defaultdict
 
 
 @login_required(login_url='/accounts/login/')
 def index(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant,user=user)
-    context={'profile':profile}
+    profile=get_object_or_404(Restaurant,user=request.user)
+
+    ##get food items & categories
+    food_categories_dict={i.id:i for i in FoodCategory.objects.filter(restaurant=profile)}
+    food_list_dict= {i:i.category_id for i in FoodItem.objects.filter(restaurant=profile)}
+    # sol to avoid hitting the database multiple times
+    x=defaultdict(list)
+    l={}
+    for k,v in food_list_dict.items():
+        x[food_categories_dict[v]].append(k)
+    for k,v in x.items():
+        if len(v)>0:
+            l.update({k:v})
+    context={'profile':profile,"sorted_food":l}
     return render(request,"restaurant/index.html",context)
 
+@login_required(login_url='/accounts/login/')
 def edit_profile(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
-    context={'profile':profile,
-            'user':user}
+    profile=get_object_or_404(Restaurant, user=request.user)
+    context={'profile':profile,}
     if request.method=="POST":
         d_form=RestaurantForm(request.POST,request.FILES,instance=profile)
         if d_form.is_valid():
@@ -33,16 +45,16 @@ def edit_profile(request):
     context.update({"form":d_form})
     return render(request,'restaurant/edit-profile.html',context)
 
+@login_required(login_url='/accounts/login/')
 def add_food(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
-    context={'profile':profile,
-            'user':user}
-    if not FoodCategory.objects.filter(restaurant=profile):
+    profile=get_object_or_404(Restaurant, user=request.user)
+    context={'profile':profile,}
+    food_categories=FoodCategory.objects.filter(restaurant=profile)
+    if not food_categories:
         _=FoodCategory.objects.get_or_create(restaurant=profile,name="General")
-        
+
     if request.method=="POST":
-        food_form=FoodItemForm(request.POST,request.FILES,restaurant=profile)
+        food_form=FoodItemForm(request.POST,request.FILES,restaurant=profile,categories=food_categories)
         if food_form.is_valid():
             food=food_form.save(commit=False)
             try:
@@ -55,16 +67,16 @@ def add_food(request):
             food.save()
             messages.info(request,"Food added successfully")
             return redirect("restaurant:index")
-    food_form=FoodItemForm(restaurant=profile)
+
+    food_form=FoodItemForm(restaurant=profile,categories=food_categories)
     context.update({"form":food_form})
     return render(request,'restaurant/add-food.html',context)
 
+@login_required(login_url='/accounts/login/')
 def edit_food(request,food_id):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
+    profile=get_object_or_404(Restaurant, user=request.user)
     food=get_object_or_404(FoodItem, id=food_id,restaurant=profile)
-    context={'profile':profile,
-            'user':user,"food":food}
+    context={'profile':profile,"food":food}
     if request.method=="POST":
         food_form=FoodItemForm(request.POST,request.FILES,instance=food,restaurant=profile)
         if food_form.is_valid():
@@ -82,12 +94,10 @@ def edit_food(request,food_id):
     context.update({"form":food_form})
     return render(request,'restaurant/edit-food.html',context)
   
-
+@login_required(login_url='/accounts/login/')
 def add_food_category(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
-    context={'profile':profile,
-            'user':user}
+    profile=get_object_or_404(Restaurant, user=request.user)
+    context={'profile':profile}
     if request.method=="POST":
         food_category_form=FoodCategoryForm(request.POST,request.FILES)
         if food_category_form.is_valid():
@@ -104,12 +114,11 @@ def add_food_category(request):
     context.update({"form":food_category_form})
     return render(request,'restaurant/add-food-category.html',context)
 
+@login_required(login_url='/accounts/login/')
 def edit_food_category(request,food_category_id):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
+    profile=get_object_or_404(Restaurant, user=request.user)
     food_category=get_object_or_404(FoodCategory, id=food_category_id,restaurant=profile)
-    context={'profile':profile,
-            'user':user,"food_category":food_category}
+    context={'profile':profile,"food_category":food_category}
     if request.method=="POST":
         food_category_form=FoodCategoryForm(request.POST,request.FILES,instance=food_category)
         if food_category_form.is_valid():
@@ -120,13 +129,10 @@ def edit_food_category(request,food_category_id):
     context.update({"form":food_category_form})
     return render(request,'restaurant/edit-food-category.html',context)
 
-
-
+@login_required(login_url='/accounts/login/')
 def add_table(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
-    context={'profile':profile,
-            'user':user}
+    profile=get_object_or_404(Restaurant, user=request.user)
+    context={'profile':profile}
     if request.method=="POST":
         table_form=TableForm(request.POST)
         if table_form.is_valid():
@@ -145,13 +151,12 @@ def add_table(request):
     context.update({"form":table_form})
     return render(request,'restaurant/add-table.html',context)
 
+@login_required(login_url='/accounts/login/')
 def edit_table(request,table_id):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
+    profile=get_object_or_404(Restaurant, user=request.user)
     table_=get_object_or_404(Table, id=table_id,restaurant=profile)
     intial_table_id=table_.table
-    context={'profile':profile,
-            'user':user,"table":table_}
+    context={'profile':profile,"table":table_}
     if request.method=="POST":
         table_form=TableForm(request.POST,instance=table_)
         if table_form.is_valid():
@@ -166,17 +171,18 @@ def edit_table(request,table_id):
     context.update({"form":table_form})
     return render(request,'restaurant/edit-table.html',context)
 
-
+@login_required(login_url='/accounts/login/')
 def tables(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
-    context={'profile':profile}
+    profile=get_object_or_404(Restaurant, user=request.user)
+    tables=Table.objects.filter(restaurant=profile)
+    context={'profile':profile,"tables":tables}
     return render(request,"restaurant/tables.html",context)
 
+@login_required(login_url='/accounts/login/')
 def food_category(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
-    context={'profile':profile}
+    profile=get_object_or_404(Restaurant, user=request.user)
+    food_categories=FoodCategory.objects.filter(restaurant=profile)
+    context={'profile':profile,"food_categories":food_categories}
     return render(request,"restaurant/food-category.html",context)
 
 
@@ -185,29 +191,29 @@ def ajax_orders_records(request):
     context = { 'ajax_output': ajax.output() }
     return render(request, 'ajax.html', context)
 
+@login_required(login_url='/accounts/login/')
 def orders(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant,user=user)
+    profile=get_object_or_404(Restaurant,user=request.user)
     table_headers=["Table","Contact","Cost","Time","View"]
     context={'profile':profile,"table_headers":table_headers}
     return render(request,"restaurant/orders.html",context)
 
+@login_required(login_url='/accounts/login/')
 def order_item(request,restaurant_name,order_id):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant,user=user)
+    profile=get_object_or_404(Restaurant,user=request.user)
     order=get_object_or_404(Order,pk=order_id)
     order_details=[]
+    food_items={ i.pk:i for i in FoodItem.objects.filter(restaurant=profile)}
     for i in order.order_info:
-        food=FoodItem.objects.get(pk=int(i["id"]))
+        food=food_items[int(i["id"])]
         order_details.append({"name":food.name,"price":food.price,"quantity":i["quantity"],"total":int(i["quantity"])*food.price})
     context={"profile":profile,"order":order,"order_details":order_details}
     return render(request,"restaurant/order-item.html",context)
 
+@login_required(login_url='/accounts/login/')
 def add_review(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
-    context={'profile':profile,
-            'user':user}
+    profile=get_object_or_404(Restaurant, user=request.user)
+    context={'profile':profile,}
     if request.method=="POST":
         review_form=ReviewForm(request.POST)
         if review_form.is_valid():
@@ -220,9 +226,9 @@ def add_review(request):
     context.update({"form":review_form})
     return render(request,'restaurant/add-review.html',context)
 
+@login_required(login_url='/accounts/login/')
 def edit_review(request,review_id):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
+    profile=get_object_or_404(Restaurant, user=request.user)
     review_=get_object_or_404(Reviews, id=review_id,restaurant=profile)
     context={'profile':profile,
             'user':user,"review":review_}
@@ -236,9 +242,9 @@ def edit_review(request,review_id):
     context.update({"form":review_form})
     return render(request,'restaurant/edit-review.html',context)
 
-
+@login_required(login_url='/accounts/login/')
 def reviews(request):
-    user=User.objects.get(id=request.user.id)
-    profile=get_object_or_404(Restaurant, user=user)
+    profile=get_object_or_404(Restaurant, user=request.user)
     context={'profile':profile}
+    reviews=Reviews.objects.filter(restaurant=profile)
     return render(request,"restaurant/reviews.html",context)

@@ -11,9 +11,9 @@
                 <div id="tv-testimonial-Carousel" class="carousel slide" data-ride="carousel">
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
-                        {% if restaurant.reviews %}
-                        {% for review in restaurant.reviews.all %}
-                        <div {% if review == restaurant.reviews.all.0 %} class="item active" {% else %} class="item" {% endif %}">
+                        {% if reviews %}
+                        {% for review in reviews %}
+                        <div {% if review == active_review %} class="item active" {% else %} class="item" {% endif %}">
                             <div class="tv-client-list">
                                 <div class="tv-client-info">
                                     <div class="tv-client-img">

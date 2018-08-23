@@ -19,7 +19,7 @@
 					<div class="page-header">
 						<img class="img-rounded profile-avatar picture-circle" src="{% if profile.avatar.url %}{{profile.avatar.url}}{% else %}{{ human_avatar }}{% endif %}">
 						<div class="profile-header">
-							<h1>{{ profile.user.username }}</h1>
+							<h1>{{ profile.name }}</h1>
 							{% if profile.location %}
 							<p>
 								Location: {{ profile.location }}
@@ -46,7 +46,6 @@
 							</p>
 							{% endif %}
 
-							{% if request.user == profile.user %}
 							<p>
 								<a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-profile' %}">
 									<i class="fas fa-edit"></i>&nbsp; Edit
@@ -55,7 +54,6 @@
 										<i class="fas fa-utensils"></i>&nbsp; Add Food Item
                                 </a>
 							</p>
-							{% endif %}
 						</div>
 					</div>
 					{% endblock %}
@@ -65,12 +63,13 @@
 			<div class="container">
 				<div class="device-header"><h2>Food Items</h2></div>
 				<hr>
-				{% if profile.food.all %}
-				{% for food_category in profile.food_category.all %}
+				{% if sorted_food %}
+				{% for food_category,food_list in sorted_food.items %}
+				
 				<div class="device-header"><h2>{{food_category.name}}</h2></div>
 				<div class="row">
-					{% if food_category.food.all %}
-					{% for fooditem in food_category.food.all %}
+					{% if food_list %}
+					{% for fooditem in food_list %}
 					<div class="col-md-4">
 						<div class="card">
 							<div class="card-header">
@@ -82,17 +81,14 @@
 									<hr/>
 									<h3 class="mt-2 mb-1">Details</h3>
 									<ul>
-										<li>Category: {{ fooditem.category.name }}</li>
 										<li>Available: {% if fooditem.availability  %} {{"Yes"}} {% else %} {{"No"}}  {% endif %}</li>
 										<li>Price: Ksh.{{ fooditem.price}}</li>
 									</ul>
-									{% if request.user == profile.user %}
 									<div class="edit">
 										<a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-food' fooditem.id %}">
 											<i class="fas fa-edit"></i>&nbsp; Edit
 										</a>
 									</div>
-									{% endif %}
 								</div>
 								<hr>
 							</div>

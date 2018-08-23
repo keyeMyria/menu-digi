@@ -21,9 +21,9 @@
                     <i class="far fa-comments"></i>&nbsp; Add a review
                 </a>
                 <hr/>
-				{% if profile.reviews.all %}
+				{% if reviews %}
 				<div class="row">
-					{% for review in profile.reviews.all %}
+					{% for review in reviews %}
                     <div class="col-md-4">
                         <div class="card">
                             <img class="img-rounded profile-avatar picture-circle" src="{% if review.avatar.url %}{{review.avatar.url}}{% else %}{{ customer_avatar }}{% endif %}">
@@ -32,13 +32,11 @@
                                 <p class="card-text">{{review.review}}
                                 </p>
                                 <hr/>
-                                {% if request.user == profile.user %}
                                 <div class="edit">
                                     <a class="btn btn-primary btn-sm" href="{% url 'restaurant:edit-review' review.id %}">
                                         <i class="fas fa-edit"></i>&nbsp; Edit
                                     </a>
                                 </div>
-                                {% endif %}
                             </div>
                         </div>
                     </div>

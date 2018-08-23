@@ -25,21 +25,21 @@
                     <h2>Our Special Menu </h2>
                 </div>
             </div>
-            {% if restaurant.food.all %}
+            {% if sorted_food %}
             <div class="row">
                     <div class="tv-menu">
                         <div class="col-md-12 col-sm-12 col-xs-12 tv-whitebgclr">
                         <!--create tabs-->
                         <ul class="nav nav-tabs">
-                            {% for food_category in restaurant.food_category.all %}
-                            <li {% if food_category  == restaurant.food_category.all.0  %} class="active" {% endif %} ><a data-toggle="tab" href="#{{food_category.name}}">{{food_category.name}}</a></li>
+                            {% for food_category,food_list in sorted_food.items %}
+                            <li {% if food_category  == active_category  %} class="active" {% endif %} ><a data-toggle="tab" href="#{{food_category.name}}">{{food_category.name}}</a></li>
                             {% endfor %}
                         </ul>
                         <div class="tab-content">
-                                {% for food_category in restaurant.food_category.all %}
-                                <div id="{{food_category.name}}" class="tab-pane fade {% if food_category  == restaurant.food_category.all.0  %} in active {% endif %}">
+                                {% for food_category,food_list in sorted_food.items %}
+                                <div id="{{food_category.name}}" class="tab-pane fade {% if food_category  == active_category  %} in active {% endif %}">
                                         <div class="row">
-                                            {% for food in food_category.food.all %}
+                                            {% for food in food_list %}
                                             {% if food.availability %}
                                             <div class="col-md-4 col-sm-4 col-xs-6 width-100perc">
                                                 <div class="tv-menu-items">

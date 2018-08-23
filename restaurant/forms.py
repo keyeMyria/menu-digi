@@ -15,8 +15,9 @@ class RestaurantForm(forms.ModelForm):
 class  FoodItemForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         self.restaurant=kwargs.pop("restaurant")
+        self.categories=kwargs.pop("categories")
         super(FoodItemForm,self).__init__(*args,**kwargs)
-        class_choices=tuple((x.name,x.name) for x in FoodCategory.objects.all() if x.restaurant==self.restaurant)
+        class_choices=tuple((x.name,x.name) for x in self.categories)
         self.fields["food_category"]=forms.ChoiceField(label="Food Category",choices=class_choices)
 
     food_category=forms.ChoiceField(label="Food Category")

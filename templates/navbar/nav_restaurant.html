@@ -44,7 +44,7 @@
                         <div class="account-wrap">
                             <div class="account-item account-item--style2 clearfix js-item-menu">
                                 <div class="image">
-                                    <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                                    <img src="{% if profile.avatar.url %}{{profile.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
                                 </div>
                                 <div class="content">
                                     <a class="js-acc-btn" href="#">{{ user.username }}</a>
@@ -52,7 +52,7 @@
                                 <div class="account-dropdown js-dropdown">
                                     <div class="info clearfix">
                                         <div class="image">
-                                            <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                                            <img src="{% if profile.avatar.url %}{{profile.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
                                         </div>
                                         <div class="content">
                                             <h5 class="name">
@@ -129,7 +129,7 @@
                 <div class="account-wrap">
                     <div class="account-item account-item--style2 clearfix js-item-menu">
                         <div class="image">
-                            <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                            <img src="{% if profile.avatar.url %}{{profile.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
                         </div>
                         <div class="content">
                             <a class="js-acc-btn" href="#">{{ user.username }}</a>
@@ -138,7 +138,7 @@
                             <div class="info clearfix">
                                 <div class="image">
                                     <a href="#">
-                                        <img src="{% if request.user.restaurant.avatar.url %}{{request.user.restaurant.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
+                                        <img src="{% if profile.avatar.url %}{{profile.avatar.url}}{% else %}{{ human_avatar }}{% endif %}" alt="user profile pic" />
                                     </a>
                                 </div>
                                 <div class="content">
