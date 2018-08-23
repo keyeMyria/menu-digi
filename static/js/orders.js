@@ -7,6 +7,7 @@ socket.onmessage = function(e){
     console.log("message",e)
     var orderDetails = e.data
     load_records()
+    M.toast({html: 'New order added!',displayLength:15000})
   }
 
 var load_records = function(){
