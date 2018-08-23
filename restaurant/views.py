@@ -76,9 +76,10 @@ def add_food(request):
 def edit_food(request,food_id):
     profile=get_object_or_404(Restaurant, user=request.user)
     food=get_object_or_404(FoodItem, id=food_id,restaurant=profile)
+    food_categories=FoodCategory.objects.filter(restaurant=profile)
     context={'profile':profile,"food":food}
     if request.method=="POST":
-        food_form=FoodItemForm(request.POST,request.FILES,instance=food,restaurant=profile)
+        food_form=FoodItemForm(request.POST,request.FILES,instance=food,restaurant=profile,categories=food_categories)
         if food_form.is_valid():
             food=food_form.save(commit=False)
             try:
@@ -90,7 +91,7 @@ def edit_food(request,food_id):
             food.save()
             messages.info(request,"Food Edited successfully")
             return redirect("restaurant:index")
-    food_form=FoodItemForm(instance=food,restaurant=profile)
+    food_form=FoodItemForm(instance=food,restaurant=profile,categories=food_categories)
     context.update({"form":food_form})
     return render(request,'restaurant/edit-food.html',context)
   
